@@ -10,6 +10,7 @@ RButton
 
 RDonutChart
 -------------------------
-<img width="340" height="424" alt="image" src="https://github.com/user-attachments/assets/5e436fbe-db7f-45b7-844a-af73a3ecf170" />
+<img width="322" height="421" alt="image" src="https://github.com/user-attachments/assets/271a25f4-c0e0-429b-a196-6423caefaa33" />
+
 
 <br />
