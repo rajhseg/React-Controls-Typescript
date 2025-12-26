@@ -14,3 +14,9 @@ RDonutChart
 
 
 <br />
+
+RPieChart
+------------------------
+<img width="306" height="397" alt="image" src="https://github.com/user-attachments/assets/61117198-f65d-4a67-854b-f74d22611c72" />
+
+<br />
