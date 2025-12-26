@@ -4,12 +4,14 @@ import './App.css';
 
 import RButton from './RButton/RButton';
 import RDonutChart, { RDonutChartItem } from './RDonutChart/RDonutChart';
+import RPieChart, { RPieChartItem } from './RPieChart/RPieChart';
 
 
 function App() {
 
   
   const [chartItems, setChartItems] = useState<RDonutChartItem[]>([]);
+  const [piechartItems, setPieChartItems] = useState<RPieChartItem[]>([]);
 
   
   const [ButtonHeight, setButtonHeight] = useState('32px');
@@ -18,6 +20,9 @@ function App() {
 
       let pieItem1 = new RDonutChartItem(24,'Batminton', 'darkgreen', 'white');
       setChartItems((prev)=> [...prev, pieItem1]);
+
+      let pieItem2 = new RPieChartItem(24, 'Batminton', 'darkgreen', 'white');
+      setPieChartItems((prev)=> [...prev, pieItem2]);
 
       setButtonHeight((prevState) => '40px');
   }
@@ -45,9 +50,32 @@ function App() {
     setChartItems((prev)=> [...prev, ...donutItems]);
   }
 
-  
+  const CreatePieChartItems = () => {
+
+      let pieItem1 = new RPieChartItem(24,'Cricket', 'grey', 'white');
+      let pieItem2 = new RPieChartItem(35,'Volleyball', 'purple', 'white');
+      let pieItem3 = new RPieChartItem(12,'Tennis', 'gray', 'white');
+      let pieItem4 = new RPieChartItem(44,'BaseBall', 'teal', 'white');
+      let pieItem5 = new RPieChartItem(14,'Hockey', 'darkblue', 'white');
+      let pieItem6 = new RPieChartItem(44,'Football', '#13297A', 'white');
+      
+      setPieChartItems((prev)=>[]);
+
+      let pieItems: RPieChartItem[] = [];
+      
+      pieItems.push(pieItem1);
+      pieItems.push(pieItem2);
+      pieItems.push(pieItem3);
+      pieItems.push(pieItem4);
+      pieItems.push(pieItem5);
+      pieItems.push(pieItem6);
+
+      setPieChartItems((prev)=> [...prev, ...pieItems]);
+  }
+
   useEffect(()=>{
     CreateDonutItems();
+    CreatePieChartItems();
   }, []);
 
   return (
@@ -56,6 +84,8 @@ function App() {
     
       <RDonutChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={chartItems} Opacity={'0.8'}></RDonutChart>
       
+      <RPieChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={piechartItems} Opacity={'0.8'}></RPieChart>
+
     </>
   );
 
