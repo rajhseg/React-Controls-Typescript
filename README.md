@@ -20,3 +20,9 @@ RPieChart
 <img width="306" height="397" alt="image" src="https://github.com/user-attachments/assets/61117198-f65d-4a67-854b-f74d22611c72" />
 
 <br />
+
+RScatterChart
+------------------------
+<img width="465" height="467" alt="image" src="https://github.com/user-attachments/assets/d73825e9-9cd9-4b38-bebf-c05525cc71ae" />
+
+<br />
