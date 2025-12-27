@@ -1,4 +1,5 @@
 import propTypes from "prop-types";
+import { RRef } from '../Models/models';
 
 import "./RButton.css";
 
@@ -15,8 +16,7 @@ type Props = {
     children: React.ReactNode
 }
 
-export type RButtonRef = {
-    Id: string,
+export type RButtonRef = RRef & { 
     Click: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 

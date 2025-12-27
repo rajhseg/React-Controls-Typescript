@@ -1,4 +1,14 @@
 
+export type RRef = {
+    Id: string,
+    HostElementId?: string | undefined | null
+}
+
+
+export type RChartRef = RRef & {
+    Render: () => void,
+    IsRendered: boolean
+}
 
 export class BarChartItem {
     constructor(public DisplayName: string,         

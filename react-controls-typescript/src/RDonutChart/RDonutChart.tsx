@@ -1,7 +1,8 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import './RDonutChart.css';
+import { RChartRef, RRef } from "../Models/models";
 
 export class RDonutChartItem {
   constructor(
@@ -33,6 +34,10 @@ class RRenderDonutChartItem extends RDonutChartItem {
   }
 }
 
+export type RDonutChartRef = RChartRef & {
+
+}
+
 type Props = {
     FontSize?: number,
     TextForeColor?: string,
@@ -48,7 +53,7 @@ type Props = {
 
 }
 
-const RDonutChart = ({
+const RDonutChart = forwardRef<RDonutChartRef, Props>(({
     FontSize = 10,
     TextForeColor = 'white',
     RotateTextToInlineAngle = false,
@@ -60,7 +65,7 @@ const RDonutChart = ({
     ShadowBlur = 10,
     Opacity = '1',
     ChartItems = []
-}: Props) => {
+}: Props, ref) => {
 
     const [IsRendered, setIsRendered] = useState(false);
     const [RenderItems, setRenderItems] = useState<RRenderDonutChartItem[]>([]);
@@ -79,6 +84,16 @@ const RDonutChart = ({
         _lineWidth = (ChartWidth / 3) - 12;
         return _lineWidth;
     }
+
+    useImperativeHandle(ref, () => ({
+        Id: Id,
+        HostElementId: HostElementId,
+        IsRendered: IsRendered,
+        Render() {
+            RenderChart();
+        },
+    }));
+
 
     useEffect(()=>{
         
@@ -258,6 +273,6 @@ const RDonutChart = ({
         </div>
         </>
     );
-}
+});
 
 export default RDonutChart;

@@ -1,8 +1,11 @@
 
-import { useEffect, useId, useRef, useState } from 'react';
-import { BarChartItem, Graph, PopupChartItem } from '../Models/models';
+import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
+import { BarChartItem, Graph, PopupChartItem, RChartRef } from '../Models/models';
 import './RScatterChart.css';
 
+export type RScatterChartRef = RChartRef & {
+
+}
 
 type Props = {
     PlotItemSize?: number,
@@ -29,7 +32,7 @@ export class RScatterChartItem {
 }
 
 
-const RScatterChart = ({
+const RScatterChart = forwardRef<RScatterChartRef, Props>(({
     PlotItemSize = 3,
     TextColor = 'gray',
     XAxisTitle = '',
@@ -45,7 +48,7 @@ const RScatterChart = ({
     PopupForeColor = undefined,
     PopupBackgroundOpacity = 1,
     ChartItems = []
-}: Props) => {
+}: Props, ref) => {
 
     let context: CanvasRenderingContext2D | null = null;
     let PopupItems: PopupChartItem[] = [];
@@ -56,6 +59,15 @@ const RScatterChart = ({
     const [RenderItems, setRenderItems] = useState<RScatterChartItem[]>([]);
 
     const bar = useRef<HTMLCanvasElement | null>(null);
+
+    useImperativeHandle(ref, ()=> ({
+      Id:Id,
+      HostElementId: HostElementId,
+      IsRendered: IsRendered,
+      Render() {
+        RenderScatterChart();
+      },
+    }));
 
     useEffect(() => {
         
@@ -548,7 +560,7 @@ const RScatterChart = ({
          </div>
         </>
     );
-}
+});
 
 
 export default RScatterChart;
