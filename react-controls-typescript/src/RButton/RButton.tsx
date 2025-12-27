@@ -2,7 +2,7 @@ import propTypes from "prop-types";
 
 import "./RButton.css";
 
-import React, { useId } from "react";
+import React, { forwardRef, useId, useImperativeHandle, useRef } from "react";
 
 type Props = {
     IsDisabled? : boolean,
@@ -15,7 +15,12 @@ type Props = {
     children: React.ReactNode
 }
 
-const RButton = ({
+export type RButtonRef = {
+    Id: string,
+    Click: (e: React.MouseEvent<HTMLButtonElement>) => void
+}
+
+const RButton = forwardRef<RButtonRef, Props>(({
     IsDisabled = false,
     onClick,
     ButtonType = "button",
@@ -24,23 +29,35 @@ const RButton = ({
     ForeColor = "whitesmoke",
     BackgroundColor = "blue",
     children
-}: Props) => {
+}: Props, ref) => {
 
     let compId = useId();
+    let bRef = useRef<HTMLButtonElement | null>(null);
+
+    useImperativeHandle(ref, () => ({
+        Click() {
+            bRef?.current?.click();
+        },
+        Id : compId
+    }));
+
+    const ButtonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
+        onClick(e);
+    }
 
     return (
         <>
-        <button id={compId} className="btn" disabled={IsDisabled}
-                onClick={(e) => onClick(e)} type={ButtonType}
+        <button ref={bRef} id={compId} className="btn" disabled={IsDisabled}
+                onClick={(e) => ButtonClick(e)} type={ButtonType}
                 style={{'height': ButtonHeight, 
                         'width': ButtonWidth,
                         'color':ForeColor,
                         'backgroundColor':BackgroundColor, 
                         'border': '1px solid '+BackgroundColor}}>
             {children}
-        </button >
+        </button>
         </>
     );
-}
+});
 
 export default RButton;

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import RButton from './RButton/RButton';
+import RButton, { RButtonRef } from './RButton/RButton';
 import RDonutChart, { RDonutChartItem } from './RDonutChart/RDonutChart';
 import RPieChart, { RPieChartItem } from './RPieChart/RPieChart';
 import RScatterChart, { RScatterChartItem } from './RScatterChart/RScatterChart';
@@ -19,6 +19,8 @@ function App() {
   
   const [ButtonHeight, setButtonHeight] = useState('32px');
 
+  const bref = useRef<RButtonRef>(null);
+
   const handleSubmit = (e:React.MouseEvent<HTMLButtonElement>) => {
 
       let pieItem1 = new RDonutChartItem(24,'Batminton', 'darkgreen', 'white');
@@ -28,6 +30,8 @@ function App() {
       setPieChartItems((prev)=> [...prev, pieItem2]);
 
       setButtonHeight((prevState) => '40px');
+
+      console.log('Button Id : '+ bref.current?.Id);
   }
 
   const CreateDonutItems = () => {
@@ -109,7 +113,7 @@ function App() {
 
   return (
     <>
-      <RButton ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>)=> handleSubmit(e)}>Submit</RButton>
+      <RButton ref={bref} ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>)=> handleSubmit(e)}>Submit</RButton>
     
       <RDonutChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={chartItems} Opacity={'0.8'}></RDonutChart>
       
