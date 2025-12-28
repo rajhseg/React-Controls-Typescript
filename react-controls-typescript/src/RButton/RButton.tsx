@@ -47,6 +47,7 @@ const RButton = forwardRef<RButtonRef, Props>(({
 
     return (
         <>
+        <div className="host">
         <button ref={bRef} id={compId} className="btn" disabled={IsDisabled}
                 onClick={(e) => ButtonClick(e)} type={ButtonType}
                 style={{'height': ButtonHeight, 
@@ -56,6 +57,7 @@ const RButton = forwardRef<RButtonRef, Props>(({
                         'border': '1px solid '+BackgroundColor}}>
             {children}
         </button>
+        </div>
         </>
     );
 });
