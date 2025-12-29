@@ -114,9 +114,9 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
     }));
 
     const textBoxValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        Change(e);
         const { value }  = e.target;
         setTValue((prevState)=> value);
-        Change(e);
         ValueChanged(value);
     }
 
