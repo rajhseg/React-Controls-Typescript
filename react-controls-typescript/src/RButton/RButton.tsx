@@ -6,6 +6,7 @@ import "./RButton.css";
 import React, { forwardRef, useId, useImperativeHandle, useRef } from "react";
 
 type Props = {
+    Style?: React.CSSProperties,
     IsDisabled? : boolean,
     onClick : (e: React.MouseEvent<HTMLButtonElement>) => void,
     ButtonType?: "button" | "submit" | "reset",
@@ -21,6 +22,7 @@ export type RButtonRef = RRef & {
 }
 
 const RButton = forwardRef<RButtonRef, Props>(({
+    Style,
     IsDisabled = false,
     onClick,
     ButtonType = "button",
@@ -47,7 +49,7 @@ const RButton = forwardRef<RButtonRef, Props>(({
 
     return (
         <>
-        <div className="host">
+        <div className="host" style={Style}>
         <button ref={bRef} id={compId} className="btn" disabled={IsDisabled}
                 onClick={(e) => ButtonClick(e)} type={ButtonType}
                 style={{'height': ButtonHeight, 

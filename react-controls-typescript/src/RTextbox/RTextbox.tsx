@@ -9,6 +9,7 @@ export type RTextboxRef = RRef & {
 }
 
 type Props = {
+    Style?: React.CSSProperties,
     LabelText?: string,
     PlaceholderText?: string,
     LabelForeColor?: string,
@@ -50,6 +51,7 @@ type Props = {
 };
 
 const RTextbox = forwardRef<RTextboxRef, Props>(({
+    Style,
     LabelText = "",
     PlaceholderText = "",
     LabelForeColor = "blue",
@@ -115,7 +117,7 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
 
     return (
         <>
-        <div id={HostElementId} className="host">
+        <div id={HostElementId} className="host" style={Style}>
             <div id={Id} className="txtroot">
 
                 <span className="span" style={{ width: TextBoxWidth, color: LabelForeColor}}> 

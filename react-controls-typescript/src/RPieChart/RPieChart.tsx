@@ -45,6 +45,7 @@ export type RPieChartRef = RChartRef & {
 }
 
 type Props = {
+    Style?: React.CSSProperties,
     FontSize?: number,
     TextForeColor?: string,
     LineColorBetweenBars?: string,
@@ -61,6 +62,7 @@ type Props = {
 
 
 const RPieChart = forwardRef<RPieChartRef, Props>(({
+        Style,
         FontSize = 10,
         TextForeColor = 'white',
         LineColorBetweenBars = 'white',
@@ -272,7 +274,7 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
 
     return (
         <>
-            <div id={HostElementId} className='host'> 
+            <div id={HostElementId} className='host' style={Style}> 
                 <div id={Id} style={{position: 'relative', width: ChartWidth+'px', height: (ChartWidth + DataListHeight) +'px'}}>
                     <canvas style={{position: 'absolute' }} ref={progressCanvas} width={ChartWidth} height={ChartWidth} 
                         className="canvasCenter">

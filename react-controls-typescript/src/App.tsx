@@ -121,14 +121,14 @@ function App() {
   return (
     <>
     
-      <RTextbox TextboxValue={txtValue} ValueChanged={(e)=>updateValue(e)}></RTextbox>
+      <RTextbox  LabelText={'Name'} TextboxValue={txtValue} ValueChanged={(e)=>updateValue(e)}></RTextbox>
       &nbsp;
       
-      <RTextbox TextboxValue={txtValue} ValueChanged={(e)=>updateValue(e)}></RTextbox>
+      <RTextbox LabelText={'Name'} TextboxValue={txtValue} ValueChanged={(e)=>updateValue(e)}></RTextbox>
       &nbsp;
      
       &nbsp;
-      <RButton ref={bref} ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>)=> handleSubmit(e)}>Submit</RButton>
+      <RButton Style={{ marginTop: '20px'}} ref={bref} ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>)=> handleSubmit(e)}>Submit</RButton>
     
       <br />
       

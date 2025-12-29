@@ -8,6 +8,7 @@ export type RScatterChartRef = RChartRef & {
 }
 
 type Props = {
+    Style?: React.CSSProperties,
     PlotItemSize?: number,
     TextColor?: string,
     XAxisTitle?: string,
@@ -33,6 +34,7 @@ export class RScatterChartItem {
 
 
 const RScatterChart = forwardRef<RScatterChartRef, Props>(({
+    Style,
     PlotItemSize = 3,
     TextColor = 'gray',
     XAxisTitle = '',
@@ -532,7 +534,7 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
 
     return (
         <>
-        <div>
+        <div id={HostElementId} style={Style} className='host'>
             <div id={Id}>
                 <canvas ref={bar} width={Width} height={Height}>
 
