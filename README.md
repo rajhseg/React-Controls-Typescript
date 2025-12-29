@@ -10,7 +10,7 @@ RButton
 
 RTextbox
 ------------------------
-<img width="569" height="63" alt="image" src="https://github.com/user-attachments/assets/bc64dcb9-55e1-45f9-b1a2-762eab37bdb4" />
+<img width="561" height="90" alt="image" src="https://github.com/user-attachments/assets/66fb75ac-6320-4622-9b21-64d9a1e55a96" />
 
 <br />
 
