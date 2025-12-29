@@ -47,7 +47,9 @@ type Props = {
     DragLeave?: (e: React.DragEvent<HTMLInputElement>) => void,
     DragOver?: (e: React.DragEvent<HTMLInputElement>) => void,
     DragStart?: (e: React.DragEvent<HTMLInputElement>) => void,
-    Drop?: (e: React.DragEvent<HTMLInputElement>) => void
+    Drop?: (e: React.DragEvent<HTMLInputElement>) => void,
+    Input?: (e: React.FormEvent<HTMLInputElement>) => void,
+    Change?: (e: React.ChangeEvent<HTMLInputElement>) => void
 };
 
 const RTextbox = forwardRef<RTextboxRef, Props>(({
@@ -89,7 +91,9 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
     DragLeave = (e: React.DragEvent<HTMLInputElement>) => {},
     DragOver = (e: React.DragEvent<HTMLInputElement>) => {},
     DragStart = (e: React.DragEvent<HTMLInputElement>) => {},
-    Drop = (e: React.DragEvent<HTMLInputElement>) => {}
+    Drop = (e: React.DragEvent<HTMLInputElement>) => {},
+    Input = (e: React.FormEvent<HTMLInputElement>) => {},
+    Change = (e: React.ChangeEvent<HTMLInputElement>) => {}
 }:Props, ref) => {
 
     let HostElementId: string = useId();
@@ -112,6 +116,7 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
     const textBoxValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value }  = e.target;
         setTValue((prevState)=> value);
+        Change(e);
         ValueChanged(value);
     }
 
@@ -136,6 +141,8 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
                                 font: Font, 
                                 pointerEvents:(Disabled || ReadOnly) ? 'none': undefined
                             }}
+
+                    onInput={(e)=> Input(e)} 
 
                     onDrag={(e) => Drag(e)}  onDragEnd={(e) => DragEnd(e)} 
                     onDragEnter={(e)=> DragEnter(e)} onDragLeave={(e) => DragLeave(e)}
