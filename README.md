@@ -14,6 +14,13 @@ RTextbox
 
 <br />
 
+Password Control
+-------------------------
+
+<img width="574" height="88" alt="image" src="https://github.com/user-attachments/assets/34420472-4b75-4a87-b2ef-46e011546fff" />
+
+<br />
+
 RDonutChart
 -------------------------
 <img width="322" height="421" alt="image" src="https://github.com/user-attachments/assets/271a25f4-c0e0-429b-a196-6423caefaa33" />
