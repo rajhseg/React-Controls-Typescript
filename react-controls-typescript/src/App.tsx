@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -19,7 +19,7 @@ function App() {
 
   const [scatterChartItems, setScatterChartItems] = useState<RScatterChartItem[]>([]);
   
-  const [ButtonHeight, setButtonHeight] = useState('32px');
+  const [ButtonHeight, setButtonHeight] = useState('40px');
 
   const bref = useRef<RButtonRef>(null);
 
@@ -112,6 +112,13 @@ function App() {
     setTxtValue((prevState)=> e);
   }
 
+  const numberOnly = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const { value } = e.target;
+    
+    e.preventDefault();
+  }
+
   useEffect(()=>{
     CreateDonutItems();
     CreatePieChartItems();
@@ -121,7 +128,7 @@ function App() {
   return (
     <>
     
-      <RTextbox  LabelText={'Name'} TextboxValue={txtValue} ValueChanged={(e)=>updateValue(e)}></RTextbox>
+      <RTextbox  LabelText={'Name'} TextboxValue={txtValue} Change={numberOnly} ValueChanged={(e)=>updateValue(e)}></RTextbox>
       &nbsp;
       
       <RTextbox LabelText={'Name'} TextboxValue={txtValue} ValueChanged={(e)=>updateValue(e)}></RTextbox>
