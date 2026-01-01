@@ -1,5 +1,5 @@
 import React, { ChangeEvent, forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
-import { RRef } from "../Models/models";
+import { PropsEvents, RRef } from "../Models/models";
 
 import './RTextbox.css';
 
@@ -8,7 +8,7 @@ export type RTextboxRef = RRef & {
     InputElement: HTMLInputElement | null
 }
 
-type Props = {
+type Props = PropsEvents<string> & {
     Style?: React.CSSProperties,
     LabelText?: string,
     PlaceholderText?: string,
@@ -22,34 +22,7 @@ type Props = {
     EnableMarginTextBottom?: boolean,
     MarginTextBottom?: string,
     IsPasswordBox?: boolean,
-    TextboxValue?: string,
-    ValueChanged?: (e: string) => void,
-    Click?: (e: React.MouseEvent<HTMLInputElement>) => void,
-    Focus?: (e: React.FocusEvent<HTMLInputElement>) => void,
-    Blur?: (e: React.FocusEvent<HTMLInputElement>) => void,
-    Cut?: (e: React.ClipboardEvent<HTMLInputElement>) => void,
-    Copy?: (e: React.ClipboardEvent<HTMLInputElement>) => void,
-    Paste?: (e: React.ClipboardEvent<HTMLInputElement>) => void,
-    KeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void,
-    KeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void,
-    KeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void,
-    MouseEnter?: (e: React.MouseEvent<HTMLInputElement>) => void,
-    MouseDown?: (e: React.MouseEvent<HTMLInputElement>) => void,
-    MouseUp?: (e: React.MouseEvent<HTMLInputElement>) => void,
-    MouseLeave?: (e: React.MouseEvent<HTMLInputElement>) => void,
-    MouseMove?: (e: React.MouseEvent<HTMLInputElement>) => void,
-    MouseOut?: (e: React.MouseEvent<HTMLInputElement>) =>  void,
-    MouseOver?: (e: React.MouseEvent<HTMLInputElement>) => void,
-    DblClick?: (e: React.MouseEvent<HTMLInputElement>) => void,
-    Drag?: (e: React.DragEvent<HTMLInputElement>) => void,
-    DragEnd?: (e: React.DragEvent<HTMLInputElement>) => void,
-    DragEnter?: (e: React.DragEvent<HTMLInputElement>) => void,
-    DragLeave?: (e: React.DragEvent<HTMLInputElement>) => void,
-    DragOver?: (e: React.DragEvent<HTMLInputElement>) => void,
-    DragStart?: (e: React.DragEvent<HTMLInputElement>) => void,
-    Drop?: (e: React.DragEvent<HTMLInputElement>) => void,
-    Input?: (e: React.FormEvent<HTMLInputElement>) => void,
-    Change?: (e: React.ChangeEvent<HTMLInputElement>) => void
+    TextboxValue?: string
 };
 
 const RTextbox = forwardRef<RTextboxRef, Props>(({
@@ -98,6 +71,7 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
 
     let HostElementId: string = useId();
     let Id: string = useId();
+    let InputId: string = useId();
 
     const [tValue, setTValue] = useState("");
     const inpRef = useRef<HTMLInputElement|null>(null);
@@ -129,7 +103,7 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
                     {LabelText}
                 </span>
                 
-                <input ref={inpRef}  readOnly={ReadOnly}  
+                <input ref={inpRef}  readOnly={ReadOnly} id={InputId}
                         disabled={Disabled}
                         type={IsPasswordBox ? 'password' : 'text'}
                         value={tValue} className="txtbox" 
