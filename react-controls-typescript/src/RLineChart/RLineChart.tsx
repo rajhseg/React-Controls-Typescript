@@ -28,7 +28,7 @@ type Props = {
 }
 
 export class RLineChartItem {
-    constructor(public ItemName: string, public ItemColor: string, public Values: number[] = []){
+    constructor(public ItemName: string, public ItemColor: string, public Values: number[] = []) {
 
     }
 }
@@ -113,7 +113,7 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
 
     }, [RenderItems]);
 
-    
+
     const NoOfSplitInXAxis = (): number => {
         return XAxisItemNames.length;
     }
