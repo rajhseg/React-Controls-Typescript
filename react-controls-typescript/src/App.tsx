@@ -8,6 +8,7 @@ import RPieChart, { RPieChartItem } from './RPieChart/RPieChart';
 import RScatterChart, { RScatterChartItem } from './RScatterChart/RScatterChart';
 import { Graph } from './Models/models';
 import RTextbox from './RTextbox/RTextbox';
+import RLineChart, { RLineChartItem } from './RLineChart/RLineChart';
 
 
 function App() {
@@ -18,7 +19,10 @@ function App() {
   const [piechartItems, setPieChartItems] = useState<RPieChartItem[]>([]);
 
   const [scatterChartItems, setScatterChartItems] = useState<RScatterChartItem[]>([]);
-  
+
+  const [lineChartItem, setLineChartItems] = useState<RLineChartItem[]>([]);
+  const [lineChartXAxisNames, setLineChartXAxisNames] = useState<string[]>([]);
+
   const [ButtonHeight, setButtonHeight] = useState('40px');
 
   const bref = useRef<RButtonRef>(null);
@@ -65,6 +69,19 @@ function App() {
     donutItems.push(pieItem6);
 
     setChartItems((prev)=> [...prev, ...donutItems]);
+  }
+
+  const CreateLineChartItems = () => {
+    
+    let item1 = new RLineChartItem("Soap", "teal", [25, 45, 12, 35, 18, 17, 40]);
+    let item2 = new RLineChartItem("ToothPowder", "darkblue", [35, 75, 18, 45, 16, 27, 60]);
+    let item3 = new RLineChartItem("Juice", "orangered", [15, 26, 38, 25, 46, 37, 70]);
+    
+    const lineChartXAxisNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const lineChartItems = [item1, item2, item3];
+
+    setLineChartXAxisNames((prev) => [...lineChartXAxisNames]);
+    setLineChartItems((prev) => [...lineChartItems]);
   }
 
   const CreatePieChartItems = () => {
@@ -129,6 +146,7 @@ function App() {
     CreateDonutItems();
     CreatePieChartItems();
     CreateScatterChart();
+    CreateLineChartItems();
   }, []);
 
   return (
@@ -141,7 +159,8 @@ function App() {
       &nbsp;
      
       &nbsp;
-      <RButton Style={{ marginTop: '20px'}} ref={bref} ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>)=> handleSubmit(e)}>Submit</RButton>
+      
+      <RButton Style={{ marginTop: '33px'}} ref={bref} ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>)=> handleSubmit(e)}>Submit</RButton>
     
       <br />
       
@@ -151,6 +170,8 @@ function App() {
       <RPieChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={piechartItems} Opacity={'0.8'}></RPieChart>
 
       <RScatterChart XAxisTitle={'Age'} YAxisTitle={'Weight'} ChartItems={scatterChartItems} Width={400} Height={400}></RScatterChart>
+
+      <RLineChart XAxisTitle={'Day'} YAxisTitle={'Price'} Width={400} Height={400} ChartItems={lineChartItem} XAxisItemNames={lineChartXAxisNames}></RLineChart>
     </>
   );
 
