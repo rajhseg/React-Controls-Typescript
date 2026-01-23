@@ -23,6 +23,7 @@ type Props = PropsEvents<string> & {
     MarginTextBottom?: string,
     IsPasswordBox?: boolean,
     TextboxValue?: string
+    EnableBoxShadow?: boolean
 };
 
 const RTextbox = forwardRef<RTextboxRef, Props>(({
@@ -40,6 +41,7 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
     MarginTextBottom = "10px",
     IsPasswordBox = false,
     TextboxValue = '',
+    EnableBoxShadow = false,
     ValueChanged =  (e: string) => { },
     Click =  (e: React.MouseEvent<HTMLInputElement>) => {},
     Focus = (e: React.FocusEvent<HTMLInputElement>) => {},
@@ -67,7 +69,7 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
     Drop = (e: React.DragEvent<HTMLInputElement>) => {},
     Input = (e: React.FormEvent<HTMLInputElement>) => {},
     Change = (e: React.ChangeEvent<HTMLInputElement>) => {}
-}:Props, ref) => {
+}:Props, ref): React.ReactElement => {
 
     let HostElementId: string = useId();
     let Id: string = useId();
@@ -106,14 +108,15 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
                 <input ref={inpRef}  readOnly={ReadOnly} id={InputId}
                         disabled={Disabled}
                         type={IsPasswordBox ? 'password' : 'text'}
-                        value={tValue} className="txtbox" 
+                        value={tValue} className={ EnableBoxShadow ? "txtbox" : "txtbox brdr" }
                 
                         style={{ height: TextBoxHeight, 
                                 width: TextBoxWidth,
                                 borderBottomColor: BottomLineColor,       
                                 marginBottom: EnableMarginTextBottom ? MarginTextBottom : '', 
                                 font: Font, 
-                                pointerEvents:(Disabled || ReadOnly) ? 'none': undefined
+                                pointerEvents:(Disabled || ReadOnly) ? 'none': undefined,
+                                boxShadow: EnableBoxShadow ? 'rgba(0, 0, 0, 0.24) 0px 3px 8px' : 'none',
                             }}
 
                     onInput={(e)=> Input(e)} 

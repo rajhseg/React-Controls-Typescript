@@ -23,6 +23,8 @@ function App() {
 
   const bref = useRef<RButtonRef>(null);
 
+  const [isPassword, setIsPassword] = useState(false);
+
   const handleSubmit = (e:React.MouseEvent<HTMLButtonElement>) => {
 
       let pieItem1 = new RDonutChartItem(24,'Batminton', 'darkgreen', 'white');
@@ -33,7 +35,11 @@ function App() {
 
       setButtonHeight((prevState) => '40px');
 
-      setTxtValue((prev)=> "Hello");
+      if(!isPassword){
+        setIsPassword((prev)=> true);
+      } else{
+        setIsPassword((prev)=> false);
+      }
 
       console.log('Button Id : '+ bref.current?.Id);
   }
@@ -127,11 +133,11 @@ function App() {
 
   return (
     <>
-    
-      <RTextbox  LabelText={'Name'} TextboxValue={txtValue} Change={numberOnly} ValueChanged={(e)=>updateValue(e)}></RTextbox>
+      <h3>React app</h3>
+      <RTextbox LabelText={'Name'} TextboxValue={txtValue} Change={numberOnly} ValueChanged={(e)=>updateValue(e)}></RTextbox>
       &nbsp;
       
-      <RTextbox LabelText={'Name'} TextboxValue={txtValue} ValueChanged={(e)=>updateValue(e)}></RTextbox>
+      <RTextbox IsPasswordBox={isPassword} LabelText={'Name'} TextboxValue={txtValue} ValueChanged={(e)=>updateValue(e)}></RTextbox>
       &nbsp;
      
       &nbsp;
