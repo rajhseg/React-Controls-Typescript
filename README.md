@@ -52,3 +52,11 @@ RScatterChart
 <br />
 
 <br />
+
+RLineChart
+------------------------
+<img width="449" height="459" alt="image" src="https://github.com/user-attachments/assets/6ba2a657-b922-4719-8b8e-a44df0c46dea" />
+
+<br />
+
+<br />
