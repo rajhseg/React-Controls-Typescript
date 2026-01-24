@@ -2,7 +2,7 @@
 
 import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
 import { PopupChartItem, RChartRef } from '../Models/models';
-import './RLineChart.css';
+import styles from './RLineChart.module.css';
 
 export type RLineChartRef = RChartRef & {
 
@@ -571,7 +571,7 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
 
     return (
         <>
-            <div id={HostElementId} style={Style} className='host'>
+            <div id={HostElementId} style={Style} className={styles.host}>
                 <div id={Id}>
                     <canvas ref={bar} width={Width} height={Height}>
 
@@ -580,13 +580,13 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
                         IsRendered &&
 
                         <div style={{ position: 'relative', alignContent: 'center', bottom: '10px', height: DataListHeight + 'px' }}>
-                            <div className="dataContainer" style={{ 'width': (Width - MarginX) + 'px' }}>
+                            <div className={styles.dataContainer} style={{ 'width': (Width - MarginX) + 'px' }}>
                                 {
                                     RenderItems.map((itm, index) => (
-                                        <div key={index} className="data">
-                                            <div className="indicator" style={{ backgroundColor: itm.ItemColor }}>
+                                        <div key={index} className={styles.data}>
+                                            <div className={styles.indicator} style={{ backgroundColor: itm.ItemColor }}>
                                             </div>
-                                            <span className="title" style={{ width: '50px' }}>{itm.ItemName}</span>
+                                            <span className={styles.title} style={{ width: 'fit-content' }}>{itm.ItemName}</span>
                                         </div>
                                     ))
                                 }

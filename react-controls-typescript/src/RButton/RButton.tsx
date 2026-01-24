@@ -1,7 +1,7 @@
 import propTypes from "prop-types";
 import { RRef } from '../Models/models';
 
-import "./RButton.css";
+import styles from  "./RButton.module.css";
 
 import React, { forwardRef, useId, useImperativeHandle, useRef } from "react";
 
@@ -49,8 +49,8 @@ const RButton = forwardRef<RButtonRef, Props>(({
 
     return (
         <>
-        <div className="host" style={Style}>
-        <button ref={bRef} id={compId} className="btn" disabled={IsDisabled}
+        <div className={styles.host} style={Style}>
+        <button ref={bRef} id={compId} className={styles.btn} disabled={IsDisabled}
                 onClick={(e) => ButtonClick(e)} type={ButtonType}
                 style={{'height': ButtonHeight, 
                         'width': ButtonWidth,

@@ -1,7 +1,8 @@
 
 import { useId, useRef, useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 
-import './RPieChart.css'
+import styles from  './RPieChart.module.css';
+
 import { RChartRef } from '../Models/models';
 
 export class RPieChartItem {
@@ -81,8 +82,9 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
 
 
     const[IsRendered, setIsRendered] = useState(false);
-
     const [RenderItems, setRenderItems] = useState<RRenderPieChartItem[]>([]);
+    const [titleLength, setTitleLength]= useState<string>("");
+    const [valueLength, setValueLength] = useState<string>("");
 
     const progressCanvas = useRef<HTMLCanvasElement|null>(null);
 
@@ -147,6 +149,9 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
 
         context = progressCanvas.current.getContext('2d');
         RenderChart();   
+        
+        setTitleLength((prev)=> calculateTitleWidth()+'px');
+        setValueLength((prev)=> calculateValueWidth()+'px');
 
     }, [RenderItems])
     
@@ -154,7 +159,46 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
         return RenderItems.map(x => x.ConverToItem());
     }
 
-       
+    const calculateTitleWidth = () => {
+        var names = ChartItems.map(x=>x.Title);
+        var length = 0;
+
+        if(context){
+        for (let index = 0; index < names.length; index++) {
+            const element = names[index];
+            var mText = context?.measureText(element);
+            if(mText.width > length){
+                length = mText.width
+            }
+        }
+        }
+
+        if(length > 0)
+        length = length+5;
+
+        return length;
+    } 
+
+  const calculateValueWidth = () => {
+    var names = ChartItems.map(x=>x.Value.toString());
+    var length = 0;
+
+    if(context){
+      for (let index = 0; index < names.length; index++) {
+        const element = names[index];
+        var mText = context?.measureText(element);
+        if(mText.width > length){
+            length = mText.width
+        }
+      }
+    }
+
+    if(length > 0)
+      length = length+10;
+    
+    return length;
+  }
+
     const GetXYForText = (x: number, y: number, length: number, angle: number): { X: number, Y: number } => {
         let x2 = x + length * Math.cos(angle);
         let y2 = y + length * Math.sin(angle);
@@ -274,23 +318,22 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
 
     return (
         <>
-            <div id={HostElementId} className='host' style={Style}> 
+            <div id={HostElementId} className={styles.host} style={Style}> 
                 <div id={Id} style={{position: 'relative', width: ChartWidth+'px', height: (ChartWidth + DataListHeight) +'px'}}>
-                    <canvas style={{position: 'absolute' }} ref={progressCanvas} width={ChartWidth} height={ChartWidth} 
-                        className="canvasCenter">
+                    <canvas style={{position: 'absolute' }} ref={progressCanvas} width={ChartWidth} height={ChartWidth}>
 
                     </canvas>  
                     {
                         IsRendered &&
                             <div style={{position: 'relative', bottom:-ChartWidth+'px', height: DataListHeight+'px'}}>
-                                <div className="dataContainer">
+                                <div className={styles.pdataContainer}>
                                     {
                                         RenderItems.map((itm, index) => (
-                                            <div key={index} className="data">
-                                                <div className="indicator" style={{backgroundColor: itm.BackgroundColor}}>                    
+                                            <div key={index} className={styles.data}>
+                                                <div className={styles.indicator} style={{backgroundColor: itm.BackgroundColor}}>                    
                                                 </div>
-                                                <span className="title" style={{width: '50px'}}>{itm.Title}</span>
-                                                <span className="title" style={{width: '30px'}}>({itm.Value})</span>
+                                                <span className={styles.title} style={{width: titleLength}}>{itm.Title}</span>
+                                                <span className={styles.title} style={{width: valueLength}}>({itm.Value})</span>
                                             </div>
                                         ))
                                     }

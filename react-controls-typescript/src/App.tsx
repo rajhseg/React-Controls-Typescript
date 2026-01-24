@@ -160,7 +160,7 @@ function App() {
      
       &nbsp;
       
-      <RButton Style={{ marginTop: '33px'}} ref={bref} ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>)=> handleSubmit(e)}>Submit</RButton>
+      <RButton Style={{ marginTop: '22px'}} ref={bref} ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>)=> handleSubmit(e)}>Submit</RButton>
     
       <br />
       

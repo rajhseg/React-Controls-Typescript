@@ -1,7 +1,7 @@
 import React, { ChangeEvent, forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
 import { PropsEvents, RRef } from "../Models/models";
 
-import './RTextbox.css';
+import styles from  './RTextbox.module.css';
 
 export type RTextboxRef = RRef & {
     Value: string,
@@ -98,17 +98,17 @@ const RTextbox = forwardRef<RTextboxRef, Props>(({
 
     return (
         <>
-        <div id={HostElementId} className="host" style={Style}>
-            <div id={Id} className="txtroot">
+        <div id={HostElementId} className={styles.host} style={Style}>
+            <div id={Id} className={styles.txtroot}>
 
-                <span className="span" style={{ width: TextBoxWidth, color: LabelForeColor}}> 
+                <span className={styles.span} style={{ width: TextBoxWidth, color: LabelForeColor}}> 
                     {LabelText}
                 </span>
                 
                 <input ref={inpRef}  readOnly={ReadOnly} id={InputId}
                         disabled={Disabled}
                         type={IsPasswordBox ? 'password' : 'text'}
-                        value={tValue} className={ EnableBoxShadow ? "txtbox" : "txtbox brdr" }
+                        value={tValue} className={ `${styles.txtbox} ${EnableBoxShadow ? styles.dummy : styles.brdr } `}
                 
                         style={{ height: TextBoxHeight, 
                                 width: TextBoxWidth,
