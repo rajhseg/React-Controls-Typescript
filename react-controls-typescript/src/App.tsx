@@ -153,17 +153,13 @@ function App() {
     <>
       <h3>React app</h3>
       <RTextbox LabelText={'Name'} TextboxValue={txtValue} Change={numberOnly} ValueChanged={(e)=>updateValue(e)}></RTextbox>
-      &nbsp;
+        &nbsp;
       
       <RTextbox IsPasswordBox={isPassword} LabelText={'Name'} TextboxValue={txtValue} ValueChanged={(e)=>updateValue(e)}></RTextbox>
-      &nbsp;
-     
-      &nbsp;
+        &nbsp; &nbsp;
       
-      <RButton Style={{ marginTop: '22px'}} ref={bref} ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>)=> handleSubmit(e)}>Submit</RButton>
-    
+      <RButton Style={{ marginTop: '22px'}} ref={bref} ButtonHeight={ButtonHeight} onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)}>Submit</RButton>
       <br />
-      
       <br />
       <RDonutChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={chartItems} Opacity={'0.8'}></RDonutChart>
       

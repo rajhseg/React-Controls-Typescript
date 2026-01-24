@@ -176,7 +176,7 @@ const RDonutChart = forwardRef<RDonutChartRef, Props>(({
     } 
 
   
-  const calculateValueWidth = () => {
+    const calculateValueWidth = () => {
     var names = ChartItems.map(x=>x.Value.toString());
     var length = 0;
 
@@ -194,7 +194,7 @@ const RDonutChart = forwardRef<RDonutChartRef, Props>(({
       length = length+10;
     
     return length;
-  }
+    }
   
     const DrawText = (context: CanvasRenderingContext2D, x: number, y: number, length: number, angle: number, color: string) => {
         let rad = (angle * Math.PI) / 180;

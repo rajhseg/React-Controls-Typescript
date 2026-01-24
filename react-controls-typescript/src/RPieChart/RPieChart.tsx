@@ -179,7 +179,7 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
         return length;
     } 
 
-  const calculateValueWidth = () => {
+    const calculateValueWidth = () => {
     var names = ChartItems.map(x=>x.Value.toString());
     var length = 0;
 
@@ -197,7 +197,7 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
       length = length+10;
     
     return length;
-  }
+    }
 
     const GetXYForText = (x: number, y: number, length: number, angle: number): { X: number, Y: number } => {
         let x2 = x + length * Math.cos(angle);
