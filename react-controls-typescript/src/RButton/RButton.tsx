@@ -14,6 +14,7 @@ type Props = {
     ButtonWidth?: string,
     ForeColor?: string,
     BackgroundColor?: string,
+    EnableBackDrop?: boolean,
     children: React.ReactNode
 }
 
@@ -30,6 +31,7 @@ const RButton = forwardRef<RButtonRef, Props>(({
     ButtonWidth = "100px",
     ForeColor = "whitesmoke",
     BackgroundColor = "blue",
+    EnableBackDrop = false,
     children
 }: Props, ref) => {
 
@@ -50,15 +52,16 @@ const RButton = forwardRef<RButtonRef, Props>(({
     return (
         <>
         <div className={styles.host} style={Style}>
-        <button ref={bRef} id={compId} className={styles.btn} disabled={IsDisabled}
-                onClick={(e) => ButtonClick(e)} type={ButtonType}
-                style={{'height': ButtonHeight, 
-                        'width': ButtonWidth,
-                        'color':ForeColor,
-                        'backgroundColor':BackgroundColor, 
-                        'border': '1px solid '+BackgroundColor}}>
-            {children}
-        </button>
+            <button ref={bRef} id={compId} className={styles.btn} disabled={IsDisabled}
+                    onClick={(e) => ButtonClick(e)} type={ButtonType}
+                    style={{'height': ButtonHeight, 
+                            'width': ButtonWidth,
+                            'color':ForeColor,
+                            'backgroundColor':BackgroundColor, 
+                            'boxShadow': EnableBackDrop ? "rgba(0, 0, 0, 0.24) 0px 3px 8px" : "none",
+                            'border': '1px solid '+BackgroundColor}}>
+                {children}
+            </button>
         </div>
         </>
     );
