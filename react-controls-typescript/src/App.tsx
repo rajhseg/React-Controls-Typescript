@@ -165,8 +165,12 @@ function App() {
       
       <RPieChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={piechartItems} Opacity={'0.8'}></RPieChart>
 
-      <RScatterChart XAxisTitle={'Age'} YAxisTitle={'Weight'} ChartItems={scatterChartItems} Width={400} Height={400}></RScatterChart>
+      &nbsp; &nbsp;&nbsp; &nbsp;
 
+      <RScatterChart XAxisTitle={'Age'} YAxisTitle={'Weight'} ChartItems={scatterChartItems} Width={400} Height={400}></RScatterChart>
+     
+      &nbsp; &nbsp;&nbsp; &nbsp;
+     
       <RLineChart XAxisTitle={'Day'} YAxisTitle={'Price'} Width={400} Height={400} ChartItems={lineChartItem} XAxisItemNames={lineChartXAxisNames}></RLineChart>
     </>
   );

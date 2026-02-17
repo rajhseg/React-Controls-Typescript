@@ -231,26 +231,28 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
 
   const EnableGlassyEffectOnTopOfChart = () => {
     if(context && bar && GlassyEffect) {
+
+      let x = 0, y = 0, gwidth = Width + PaddingLeft + PaddingRight, 
+          gheight = Height + PaddingTop + PaddingBottom;
+
       context.beginPath();
       context.save();
       context.globalAlpha = 0.2;
       context.filter = "blur(10px)";
       context.fillStyle = GlassyEffectColor;
-      context.roundRect(0, 0, Width+PaddingLeft+PaddingRight, Height+PaddingTop+PaddingBottom, 7);
+      context.roundRect(x, y, gwidth, gheight, 7);
       context.fill();
       context.restore();
       context.closePath();
 
-      let x = 0, y = 0, width = Width + PaddingLeft + PaddingRight, height = Height + PaddingTop + PaddingBottom;
-
        // Light border
        context.strokeStyle = "rgba(255, 255, 255, 0.6)";
        context.lineWidth = 1.5;
-       context.strokeRect(x, y, width, height);
+       context.strokeRect(x, y, gwidth, gheight);
 
       // Soft inner highlight
       context.fillStyle = "rgba(255, 255, 255, 0.1)";
-      context.fillRect(x, y, width, height);
+      context.fillRect(x, y, gwidth, gheight);
     }
   }
 
