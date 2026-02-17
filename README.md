@@ -47,7 +47,8 @@ RPieChart
 
 RScatterChart
 ------------------------
-<img width="465" height="467" alt="image" src="https://github.com/user-attachments/assets/d73825e9-9cd9-4b38-bebf-c05525cc71ae" />
+
+<img width="476" height="494" alt="image" src="https://github.com/user-attachments/assets/3b51ee70-4d69-499a-bdb2-b5cb9bbe7902" />
 
 <br />
 
