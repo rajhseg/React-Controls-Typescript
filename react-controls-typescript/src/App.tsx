@@ -124,7 +124,7 @@ function App() {
     let item3 = new RScatterChartItem("City 3", 'teal', [
       new Graph(14,35), new Graph(25,45), new Graph(40,85)
       ,new Graph(40,63), new Graph(55,78), new Graph(54,53), new Graph(66, 56)
-      ,new Graph(20,32), new Graph(14,41), new Graph(34,75), new Graph(68, 72)
+      ,new Graph(20,30), new Graph(14,41), new Graph(34,75), new Graph(68, 72)
     ]);    
 
     setScatterChartItems((prevState)=>[item1, item2, item3]);

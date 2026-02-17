@@ -19,6 +19,12 @@ type Props = {
     Height?: number,
     MarginX?: number,
     MarginY?: number,
+    PaddingRight?: number,
+    PaddingTop?: number,
+    PaddingBottom?: number,
+    PaddingLeft?: number,
+    GlassyEffect?: boolean,
+    GlassyEffectColor?: string,
     DataListHeight?: number,
     PopupBackColor?: string,
     PopupForeColor?: string | undefined,
@@ -45,6 +51,12 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
     Height = 300,
     MarginX = 50,
     MarginY = 50,
+    PaddingRight = 20,
+    PaddingTop = 20,
+    PaddingBottom = 10,
+    PaddingLeft = 20,
+    GlassyEffect = true,
+    GlassyEffectColor = 'lightgray',
     DataListHeight = 50,
     PopupBackColor = 'lightgray',
     PopupForeColor = undefined,
@@ -95,6 +107,10 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         Height,
         MarginX,
         MarginY,
+        PaddingRight,
+        PaddingTop,
+        PaddingBottom,
+        PaddingLeft,
         DataListHeight,
         PopupBackColor,
         PopupForeColor,
@@ -119,7 +135,7 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
 
     if(context && bar){            
       context?.beginPath();      
-      context.clearRect(0, 0, Width, Height);
+      context.clearRect(0, 0, Width+PaddingRight+PaddingLeft, Height+PaddingTop+PaddingBottom);
       context.closePath();
 
       RenderScatterChart();
@@ -213,6 +229,31 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
     return typeof prop === 'string';
   }
 
+  const EnableGlassyEffectOnTopOfChart = () => {
+    if(context && bar && GlassyEffect) {
+      context.beginPath();
+      context.save();
+      context.globalAlpha = 0.2;
+      context.filter = "blur(10px)";
+      context.fillStyle = GlassyEffectColor;
+      context.roundRect(0, 0, Width+PaddingLeft+PaddingRight, Height+PaddingTop+PaddingBottom, 7);
+      context.fill();
+      context.restore();
+      context.closePath();
+
+      let x = 0, y = 0, width = Width + PaddingLeft + PaddingRight, height = Height + PaddingTop + PaddingBottom;
+
+       // Light border
+       context.strokeStyle = "rgba(255, 255, 255, 0.6)";
+       context.lineWidth = 1.5;
+       context.strokeRect(x, y, width, height);
+
+      // Soft inner highlight
+      context.fillStyle = "rgba(255, 255, 255, 0.1)";
+      context.fillRect(x, y, width, height);
+    }
+  }
+
   const RenderScatterChart = () => {
 
     setIsRendered((prevState) => false);
@@ -220,7 +261,9 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
     if (bar && context && RenderItems && RenderItems.length > 0) {
       let min: number | undefined = undefined;
       let max: number | undefined = undefined;
-      context.clearRect(0, 0, Width, Height);
+      context.clearRect(0, 0, Width+PaddingLeft+PaddingRight, Height+PaddingTop+PaddingBottom);
+
+      EnableGlassyEffectOnTopOfChart();
       
       let spaceFromTopYAxis = 25;
       let spaceFromRightXAxis = 25;
@@ -252,13 +295,13 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         var MinLimit = 0;
         var MaxLimit = ydistance * (NoOfSplitInYAxis);
 
-        var StartX: number = MarginX;
-        var StartY: number = Height - MarginY;
+        var StartX: number = MarginX + PaddingLeft;
+        var StartY: number = Height + PaddingTop  - MarginY;
 
         /* Draw Vertical Line */
         context.beginPath();
         context.moveTo(StartX, StartY);
-        context.lineTo(StartX, 0);
+        context.lineTo(StartX, PaddingTop);
         context.strokeStyle = TextColor;
         context.stroke();
 
@@ -274,9 +317,9 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         context.beginPath();
 
         let met = context.measureText(XAxisTitle);
-        let xTextPoint = (Width - MarginX) / 2 + MarginX;
+        let xTextPoint = (Width - MarginX - PaddingLeft - PaddingRight) / 2 + MarginX + PaddingLeft;
         xTextPoint = xTextPoint - (met.width / 2);
-        let yTextPoint = Height - 10;
+        let yTextPoint = Height + PaddingTop - 5;
 
         context.save();
         context.fillStyle = TextColor;
@@ -290,9 +333,9 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         context.save();
 
         met = context.measureText(XAxisTitle);
-        yTextPoint = (Height - MarginY) / 2;
-        yTextPoint = yTextPoint + (met.width / 2);
-        xTextPoint = 15;
+        yTextPoint = (Height  - MarginY) / 2;
+        yTextPoint = yTextPoint + PaddingTop + PaddingBottom + (met.width / 2);
+        xTextPoint = PaddingLeft + 15;
         context.fillStyle = TextColor;
         context.translate(xTextPoint, yTextPoint);
         context.rotate((Math.PI / 180) * 270);
@@ -303,12 +346,12 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
 
 
         /* Draw y axis line */
-        let yvDistance = (StartY - spaceFromTopYAxis) / NoOfSplitInYAxis;
+        let yvDistance = (StartY - PaddingTop - spaceFromTopYAxis) / NoOfSplitInYAxis;
 
         /* Draw Y Axis */
         for (let index = 0; index <= NoOfSplitInYAxis; index++) {
           let yDisplayValue = Math.round(ydistance * (NoOfSplitInYAxis - index));
-          let yPoint = Math.round((yvDistance * index) + spaceFromTopYAxis);
+          let yPoint = Math.round((yvDistance * index) + spaceFromTopYAxis + PaddingTop);
 
           HorizontalLineInYAxis(StartX, yPoint);
           DrawHorizontalLine(StartX, yPoint);
@@ -330,7 +373,7 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         for (let index = 1; index <= NoOfSplitInXAxis; index++) {
           let xDisplayValue = xdistance * index;
           let xPoint = (xvDistance * index) + StartX;
-          let yPoint = Height - MarginY;
+          let yPoint = Height + PaddingTop - MarginY;
 
           DrawVerticalLine(xPoint, yPoint);
           DrawVerticalLineInXAxis(xPoint, yPoint);
@@ -347,7 +390,7 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
             let xPoint = xvDistance * indx + StartX;
 
             let yindx = -(item.yPoint / ydistance) + NoOfSplitInYAxis;
-            let yPoint = Math.round((yvDistance * yindx) + spaceFromTopYAxis);
+            let yPoint = Math.round((yvDistance * yindx) + spaceFromTopYAxis + PaddingTop);
             
             Plot(xPoint, yPoint, element.ItemColor);
 
@@ -384,7 +427,7 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
       context.lineWidth = 0.2;
       context.strokeStyle = TextColor;
       context.moveTo(xPoint, yPoint);
-      context.lineTo(xPoint, 0);
+      context.lineTo(xPoint, PaddingTop);
       context.stroke();
       context.closePath();
     }
@@ -480,7 +523,7 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
     if (context) {
       context.beginPath();
       let startX = x;
-      let endX = x + Width - MarginX;
+      let endX = x + Width - MarginX - PaddingLeft;
       context.lineWidth = 0.2;
       context.strokeStyle = TextColor;
       context.moveTo(startX, ypoint);
@@ -536,14 +579,15 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         <>
         <div id={HostElementId} style={Style} className={styles.host}>
             <div id={Id}>
-                <canvas ref={bar} width={Width} height={Height}>
+                <canvas ref={bar} width={Width + PaddingRight + PaddingLeft} height={Height + PaddingTop + PaddingBottom}>
 
                 </canvas>
                 {
                     IsRendered && 
 
                     <div style={{position: 'relative', alignContent: 'center', bottom:  '10px',  height: DataListHeight+'px' }}>
-                    <div className={styles.dataContainer} style={{'width': (Width - MarginX) +'px'}}>
+                    <div className={styles.dataContainer} style={{'width': (Width - MarginX) +'px', 
+                                                                  'left': (PaddingLeft + MarginX) + 'px'}}>
                         {
                             RenderItems.map((itm, index) => (
                                 <div key={index} className={styles.data}>
@@ -557,7 +601,6 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
                     </div>        
                     </div>
                 }
-                
             </div>
          </div>
         </>
