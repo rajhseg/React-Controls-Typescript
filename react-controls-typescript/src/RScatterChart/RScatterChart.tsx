@@ -172,7 +172,7 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         context.save();
         context.globalAlpha = PopupBackgroundOpacity;
         context.fillStyle = PopupBackColor;
-        context.rect(x, y, textWidth, 40); 
+        context.roundRect(x, y, textWidth, 40, 4); 
         context.fill();
         context.restore();
         context.closePath();
