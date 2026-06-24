@@ -23,7 +23,11 @@ type Props = {
     DataListHeight?: number,
     PopupBackColor?: string,
     PopupForeColor?: string | undefined,
-    PopupBackgroundOpacity?: number
+    PopupBackgroundOpacity?: number,
+    GlassyEffect?: boolean,
+    GlassyEffectColor?: string,
+    EnableBorderForPopup?: boolean,
+    PopupBorderColor?: string,
     ChartItems?: RLineChartItem[]
 }
 
@@ -46,9 +50,13 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
     MarginX = 50,
     MarginY = 50,
     DataListHeight = 50,
-    PopupBackColor = "lightgray",
-    PopupForeColor = undefined,
+    PopupBackColor = "#AFA6FF",
+    PopupForeColor = 'white',
     PopupBackgroundOpacity = 1,
+    GlassyEffect = true,
+    GlassyEffectColor = 'lightgray',
+    EnableBorderForPopup = true,
+    PopupBorderColor = 'lightgray',
     ChartItems = []
 }: Props, ref) => {
 
@@ -159,6 +167,11 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
                 context.save();
                 context.globalAlpha = PopupBackgroundOpacity;
                 context.fillStyle = PopupBackColor;
+                   
+                if(EnableBorderForPopup) {
+                context.strokeStyle = PopupBorderColor;
+                }
+                
                 context.roundRect(x, y, textWidth, 40, 4);
                 context.fill();
                 context.restore();

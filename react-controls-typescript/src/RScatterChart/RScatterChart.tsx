@@ -29,6 +29,8 @@ type Props = {
     PopupBackColor?: string,
     PopupForeColor?: string | undefined,
     PopupBackgroundOpacity?: number,
+    EnableBorderForPopup?: boolean,
+    PopupBorderColor?: string,
     ChartItems?: RScatterChartItem[]
 };
 
@@ -58,9 +60,11 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
     GlassyEffect = true,
     GlassyEffectColor = 'lightgray',
     DataListHeight = 50,
-    PopupBackColor = 'lightgray',
-    PopupForeColor = undefined,
+    PopupBackColor = '#AFA6FF',
+    PopupForeColor = 'white',
     PopupBackgroundOpacity = 1,
+    EnableBorderForPopup = true,
+    PopupBorderColor = 'lightgray',
     ChartItems = []
 }: Props, ref) => {
 
@@ -114,6 +118,8 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         DataListHeight,
         PopupBackColor,
         PopupForeColor,
+        PopupBorderColor,
+        EnableBorderForPopup,
         PopupBackgroundOpacity,
         ChartItems  
     ]);
@@ -172,6 +178,11 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         context.save();
         context.globalAlpha = PopupBackgroundOpacity;
         context.fillStyle = PopupBackColor;
+            
+        if(EnableBorderForPopup) {
+          context.strokeStyle = PopupBorderColor;
+        }
+
         context.roundRect(x, y, textWidth, 40, 4); 
         context.fill();
         context.restore();
