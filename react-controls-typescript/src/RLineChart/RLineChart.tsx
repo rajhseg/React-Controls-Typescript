@@ -20,6 +20,11 @@ type Props = {
     MarginX?: number,
     MarginY?: number,
     Height?: number,
+    IsRenderFromInit?: boolean,
+    PaddingRight?: number,
+    PaddingTop?: number,
+    PaddingBottom?: number,
+    PaddingLeft?: number,
     DataListHeight?: number,
     PopupBackColor?: string,
     PopupForeColor?: string | undefined,
@@ -53,6 +58,11 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
     PopupBackColor = "#AFA6FF",
     PopupForeColor = 'white',
     PopupBackgroundOpacity = 1,
+    IsRenderFromInit = true,
+    PaddingRight = 20,
+    PaddingTop = 20,
+    PaddingBottom = 10,
+    PaddingLeft = 20,
     GlassyEffect = true,
     GlassyEffectColor = 'lightgray',
     EnableBorderForPopup = true,
@@ -128,8 +138,12 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
 
     const MouseMove = (event: MouseEvent) => {
         if (context && bar) {
+
+            let totalWidth = Width + PaddingLeft + PaddingRight;
+            let totalHeight = Height + PaddingTop + PaddingBottom;
+
             context?.beginPath();
-            context.clearRect(0, 0, Width, Height);
+            context.clearRect(0, 0, totalWidth, totalHeight);
             context.closePath();
 
             RenderedLineChart();
@@ -169,9 +183,9 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
                 context.fillStyle = PopupBackColor;
                    
                 if(EnableBorderForPopup) {
-                context.strokeStyle = PopupBorderColor;
+                  context.strokeStyle = PopupBorderColor;
                 }
-                
+
                 context.roundRect(x, y, textWidth, 40, 4);
                 context.fill();
                 context.restore();
@@ -226,16 +240,48 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
         return typeof prop === 'string';
     }
 
+    const EnableGlassyEffectOnTopOfChart = () => {
+        if(context && bar && GlassyEffect) {
+
+        let x = 0, y = 0, gwidth = Width + PaddingLeft + PaddingRight, 
+            gheight = Height + PaddingTop + PaddingBottom;
+
+        context.beginPath();
+        context.save();
+        context.globalAlpha = 0.2;
+        context.filter = "blur(10px)";
+        context.fillStyle = GlassyEffectColor;
+        context.roundRect(x, y, gwidth, gheight, 7);
+        context.fill();
+        context.restore();
+        context.closePath();
+
+        // Light border
+        context.strokeStyle = "rgba(255, 255, 255, 0.6)";
+        context.lineWidth = 1.5;
+        context.strokeRect(x, y, gwidth, gheight);
+
+        // Soft inner highlight
+        context.fillStyle = "rgba(255, 255, 255, 0.1)";
+        context.fillRect(x, y, gwidth, gheight);
+        }
+    }
+    
     const RenderedLineChart = () => {
 
         setIsRendered((prev) => false);
 
         PopupItems = [];
 
+        const totalWidth = Width + PaddingLeft + PaddingRight;
+        const totalHeight = Height + PaddingTop + PaddingBottom;
+
         if (bar && context && ChartItems && ChartItems.length > 0) {
             let min: number | undefined = undefined;
             let max: number | undefined = undefined;
-            context.clearRect(0, 0, Width, Height);
+            context.clearRect(0, 0, totalWidth, totalHeight);
+
+            EnableGlassyEffectOnTopOfChart();
 
             let spaceFromTopYAxis = 25;
             let spaceFromRightXAxis = 25;
@@ -263,13 +309,13 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
                 var MinLimit = 0;
                 var MaxLimit = ydistance * (NoOfSplitInYAxis);
 
-                var StartX: number = MarginX;
-                var StartY: number = Height - MarginY;
+                var StartX: number = MarginX + PaddingLeft;
+                var StartY: number = Height + PaddingTop - MarginY;
 
                 /* Draw Vertical Line */
                 context.beginPath();
                 context.moveTo(StartX, StartY);
-                context.lineTo(StartX, 0);
+                context.lineTo(StartX, PaddingTop);
                 context.strokeStyle = TextColor;
                 context.stroke();
 
@@ -285,9 +331,9 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
                 context.beginPath();
 
                 let met = context.measureText(XAxisTitle);
-                let xTextPoint = (Width - MarginX) / 2 + MarginX;
+                let xTextPoint = (Width - MarginX - PaddingLeft - PaddingRight) / 2 + MarginX + PaddingLeft;
                 xTextPoint = xTextPoint - (met.width / 2);
-                let yTextPoint = Height - 10;
+                let yTextPoint = Height + PaddingTop - 5;
 
                 context.save();
                 context.fillStyle = TextColor;
@@ -302,8 +348,8 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
 
                 met = context.measureText(XAxisTitle);
                 yTextPoint = (Height - MarginY) / 2;
-                yTextPoint = yTextPoint + (met.width / 2);
-                xTextPoint = 15;
+                yTextPoint = yTextPoint + PaddingTop + PaddingBottom + (met.width / 2);
+                xTextPoint = PaddingLeft + 15;
                 context.fillStyle = TextColor;
                 context.translate(xTextPoint, yTextPoint);
                 context.rotate((Math.PI / 180) * 270);
@@ -314,12 +360,12 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
 
 
                 /* Draw y axis line */
-                let yvDistance = (StartY - spaceFromTopYAxis) / NoOfSplitInYAxis;
+                let yvDistance = (StartY - PaddingTop - spaceFromTopYAxis) / NoOfSplitInYAxis;
 
                 /* Draw Y Axis */
                 for (let index = 0; index <= NoOfSplitInYAxis; index++) {
                     let yDisplayValue = Math.round(ydistance * (NoOfSplitInYAxis - index));
-                    let yPoint = Math.round((yvDistance * index) + spaceFromTopYAxis);
+                    let yPoint = Math.round((yvDistance * index) + spaceFromTopYAxis + PaddingTop);
 
                     HorizontalLineInYAxis(StartX, yPoint);
                     DrawHorizontalLine(StartX, yPoint);
@@ -336,7 +382,7 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
                 for (let index = 0; index < NoOfSplitInXAxis(); index++) {
                     let xDisplayValue = XAxisItemNames[index];
                     let xPoint = (xvDistance * (index + 1)) + StartX;
-                    let yPoint = Height - MarginY;
+                    let yPoint = Height + PaddingTop - MarginY;
 
                     DrawVerticalLine(xPoint, yPoint);
                     DrawVerticalLineInXAxis(xPoint, yPoint);
@@ -349,13 +395,18 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
                     let prevX = undefined;
                     let prevY = undefined;
 
+                    if(IsRenderFromInit) {
+                        prevX = MarginX + PaddingLeft;
+                        prevY = Height + PaddingTop - MarginY;
+                    }
+
                     for (let v = 0; v < element.Values.length; v++) {
                         const item = element.Values[v];
 
-                        let xPoint = xvDistance * (v + 1) + MarginX;
+                        let xPoint = xvDistance * (v + 1) + MarginX + PaddingLeft;
 
                         let yindx = -(item / ydistance) + NoOfSplitInYAxis;
-                        let yPoint = Math.round((yvDistance * yindx) + spaceFromTopYAxis);
+                        let yPoint = Math.round((yvDistance * yindx) + spaceFromTopYAxis + PaddingTop);
 
                         /* Plot Circle */
                         Plot(xPoint, yPoint, element.ItemColor);
@@ -409,7 +460,7 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
             context.lineWidth = 0.2;
             context.strokeStyle = TextColor;
             context.moveTo(xPoint, yPoint);
-            context.lineTo(xPoint, 0);
+            context.lineTo(xPoint, PaddingTop);
             context.stroke();
             context.closePath();
         }
@@ -506,7 +557,7 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
         if (context) {
             context.beginPath();
             let startX = x;
-            let endX = x + Width - MarginX;
+            let endX = x + Width - MarginX - PaddingLeft;
             context.lineWidth = 0.2;
             context.strokeStyle = TextColor;
             context.moveTo(startX, ypoint);
@@ -586,14 +637,19 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
         <>
             <div id={HostElementId} style={Style} className={styles.host}>
                 <div id={Id}>
-                    <canvas ref={bar} width={Width} height={Height}>
+                    <canvas ref={bar} width={Width + PaddingRight + PaddingLeft} height={Height + PaddingTop + PaddingBottom}>
 
                     </canvas>
                     {
                         IsRendered &&
 
-                        <div style={{ position: 'relative', alignContent: 'center', bottom: '10px', height: DataListHeight + 'px' }}>
-                            <div className={styles.dataContainer} style={{ 'width': (Width - MarginX) + 'px' }}>
+                        <div style={{ position: 'relative', alignContent: 'center', bottom: '10px', 
+                                        display:'flex', flexDirection: 'row', 
+                                        height: DataListHeight + 'px' }}>
+                            
+                            <div style={{width: (MarginX + PaddingLeft) + 'px'}}></div>
+
+                            <div className={styles.dataContainer} style={{ 'width': (Width - MarginX - PaddingLeft) + 'px' }}>
                                 {
                                     RenderItems.map((itm, index) => (
                                         <div key={index} className={styles.data}>
@@ -605,6 +661,9 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
                                 }
 
                             </div>
+
+                            <div style={{width: (PaddingRight) + 'px'}}></div>                           
+
                         </div>
                     }
 

@@ -598,9 +598,13 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
                 {
                     IsRendered && 
 
-                    <div style={{position: 'relative', alignContent: 'center', bottom:  '10px',  height: DataListHeight+'px' }}>
-                    <div className={styles.dataContainer} style={{'width': (Width - MarginX) +'px', 
-                                                                  'left': (PaddingLeft + MarginX) + 'px'}}>
+                    <div style={{position: 'relative', alignContent: 'center', bottom:  '10px', 
+                        display:'flex', flexDirection: 'row',  
+                        height: DataListHeight+'px' }}>
+                                                
+                    <div style={{width: (MarginX + PaddingLeft) + 'px'}}></div>
+                    
+                    <div className={styles.dataContainer} style={{'width': (Width - MarginX - PaddingLeft) +'px'}}>
                         {
                             RenderItems.map((itm, index) => (
                                 <div key={index} className={styles.data}>
@@ -611,7 +615,10 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
                             ))
                         }
 
-                    </div>        
+                    </div>    
+                                                
+                    <div style={{width: (PaddingRight) + 'px'}}></div>                           
+    
                     </div>
                 }
             </div>
