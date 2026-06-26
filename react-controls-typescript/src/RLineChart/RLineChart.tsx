@@ -33,7 +33,9 @@ type Props = {
     GlassyEffectColor?: string,
     EnableBorderForPopup?: boolean,
     PopupBorderColor?: string,
-    ChartItems?: RLineChartItem[]
+    ChartItems?: RLineChartItem[],
+    FontSize?: string,
+    FontFamily?: string
 }
 
 export class RLineChartItem {
@@ -67,7 +69,9 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
     GlassyEffectColor = 'lightgray',
     EnableBorderForPopup = true,
     PopupBorderColor = 'lightgray',
-    ChartItems = []
+    ChartItems = [],
+    FontSize = '12px',
+    FontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
 }: Props, ref) => {
 
 
@@ -636,7 +640,7 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
     return (
         <>
             <div id={HostElementId} style={Style} className={styles.host}>
-                <div id={Id}>
+                <div style={{ fontFamily: FontFamily, fontSize: FontSize }} id={Id}>
                     <canvas ref={bar} width={Width + PaddingRight + PaddingLeft} height={Height + PaddingTop + PaddingBottom}>
 
                     </canvas>

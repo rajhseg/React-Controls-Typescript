@@ -24,6 +24,8 @@ type Props = {
     PaddingBottom?: number,
     PaddingLeft?: number,
     GlassyEffect?: boolean,
+    FontFamily?: string,
+    FontSize?: string,
     GlassyEffectColor?: string,
     DataListHeight?: number,
     PopupBackColor?: string,
@@ -65,7 +67,9 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
     PopupBackgroundOpacity = 1,
     EnableBorderForPopup = true,
     PopupBorderColor = 'lightgray',
-    ChartItems = []
+    ChartItems = [],
+    FontSize = '12px',
+    FontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
 }: Props, ref) => {
 
     let context: CanvasRenderingContext2D | null = null;
@@ -590,8 +594,8 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
 
     return (
         <>
-        <div id={HostElementId} style={Style} className={styles.host}>
-            <div id={Id}>
+            <div id={HostElementId} style={Style} className={styles.host}>
+              <div style={{ fontFamily: FontFamily, fontSize: FontSize }} id={Id}>
                 <canvas ref={bar} width={Width + PaddingRight + PaddingLeft} height={Height + PaddingTop + PaddingBottom}>
 
                 </canvas>
@@ -614,7 +618,6 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
                                 </div>
                             ))
                         }
-
                     </div>    
                                                 
                     <div style={{width: (PaddingRight) + 'px'}}></div>                           
