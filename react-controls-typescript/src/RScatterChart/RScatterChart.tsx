@@ -79,6 +79,7 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
 
     const [IsRendered, setIsRendered] = useState(false);
     const [RenderItems, setRenderItems] = useState<RScatterChartItem[]>([]);
+    const [isReady, setIsReady] = useState<boolean>(false);
 
     const bar = useRef<HTMLCanvasElement | null>(null);
 
@@ -93,16 +94,18 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
 
     useEffect(() => {
         
-        setRenderItems((prevState) => []);
+      let initReady = [
+        PlotItemSize,
+        TextColor,
+        XAxisTitle,
+        YAxisTitle,
+        NoOfSplitInXAxis, NoOfSplitInYAxis,
+        Width, Height, MarginX, MarginY, PaddingRight, PaddingTop, PaddingBottom, PaddingLeft,
+        DataListHeight, PopupBackColor, PopupForeColor, PopupBorderColor, EnableBorderForPopup,
+        PopupBackgroundOpacity
+      ].every(x=> x!== undefined && x !== null);
 
-        let itms: RScatterChartItem[] = [];
-
-        for(let i = 0; i < ChartItems.length; i++){
-            let itm = ChartItems[i];
-            itms.push(itm);
-        }
-        
-        setRenderItems((prevState) => [...prevState, ...itms])
+      setIsReady((x)=> initReady);
 
     }, [ 
         PlotItemSize,
@@ -127,6 +130,24 @@ const RScatterChart = forwardRef<RScatterChartRef, Props>(({
         PopupBackgroundOpacity,
         ChartItems  
     ]);
+
+    useEffect(() => {
+      
+        if(!isReady)
+          return;
+
+        setRenderItems((prevState) => []);
+
+        let itms: RScatterChartItem[] = [];
+
+        for(let i = 0; i < ChartItems.length; i++){
+            let itm = ChartItems[i];
+            itms.push(itm);
+        }
+        
+        setRenderItems((prevState) => [...prevState, ...itms])
+    }
+    , [isReady, ChartItems]);
 
     useEffect(()=>{
 

@@ -82,6 +82,8 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
 
     const [IsRendered, setIsRendered] = useState(false);
     const [RenderItems, setRenderItems] = useState<RLineChartItem[]>([]);
+    
+    const [isReady, setIsReady] = useState<boolean>(false);
 
     const bar = useRef<HTMLCanvasElement | null>(null);
 
@@ -95,17 +97,18 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
     }))
 
     useEffect(() => {
-        setRenderItems((prevState) => []);
+        let initReady = [
+            PlotItemSize,
+            FontSize,
+            TextColor, XAxisTitle, YAxisTitle, NoOfSplitInYAxis, Width, Height, MarginX, MarginY,
+            DataListHeight, PopupBackColor, PopupForeColor, PopupBackgroundOpacity,
+            XAxisItemNames, PaddingRight, PaddingTop, PaddingBottom, PaddingLeft, GlassyEffect, GlassyEffectColor,
+            EnableBorderForPopup, PopupBorderColor
+        ].every(x => x !== undefined && x !== null);
 
-        let itms: RLineChartItem[] = [];
-
-        for (let i = 0; i < ChartItems.length; i++) {
-            let itm = ChartItems[i];
-            itms.push(itm);
-        }
-
-        setRenderItems((prevState) => [...prevState, ...itms])
+        setIsReady((x) => initReady);
     }, [
+        ChartItems,
         PlotItemSize,
         TextColor,
         XAxisTitle,
@@ -120,8 +123,33 @@ const RLineChart = forwardRef<RLineChartRef, Props>(({
         PopupForeColor,
         PopupBackgroundOpacity,
         ChartItems,
-        XAxisItemNames
+        XAxisItemNames,
+        PaddingRight,
+        PaddingTop,
+        PaddingBottom,
+        PaddingLeft,
+        GlassyEffect,
+        GlassyEffectColor,
+        EnableBorderForPopup,
+        PopupBorderColor
     ]);
+
+    useEffect(() => {
+        
+        if(!isReady)
+            return;
+
+        setRenderItems((prevState) => []);
+
+        let itms: RLineChartItem[] = [];
+
+        for (let i = 0; i < ChartItems.length; i++) {
+            let itm = ChartItems[i];
+            itms.push(itm);
+        }
+
+        setRenderItems((prevState) => [...prevState, ...itms])
+    }, [isReady, ChartItems]);
 
     useEffect(() => {
 

@@ -85,6 +85,8 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
     const [RenderItems, setRenderItems] = useState<RRenderPieChartItem[]>([]);
     const [titleLength, setTitleLength]= useState<string>("");
     const [valueLength, setValueLength] = useState<string>("");
+    
+    const [isReady, setIsReady] = useState<boolean>(false);
 
     const progressCanvas = useRef<HTMLCanvasElement|null>(null);
 
@@ -111,20 +113,13 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
 
     useEffect(()=>{
         
-        setRenderItems((prevState) => []);
+        let initReady = [
+            FontSize,
+            TextForeColor, LineColorBetweenBars, RotateTextToInlineAngle, ShowTextOnTopOfChartItem, 
+            MoveTextUpwardsFromCenterInPx, ChartWidth, DataListHeight, ShadowColor, ShadowBlur, Opacity
+        ].every(x=> x!== undefined && x !== null);
 
-        let _itms: RRenderPieChartItem[] = [];
-
-        if (ChartItems) {
-            for (let index = 0; index < ChartItems.length; index++) {
-                const element = ChartItems[index];
-                let itm = new RRenderPieChartItem(element.Value, element.Title, element.BackgroundColor, element.ForeColor);
-                _itms.push(itm);
-            }
-
-            setRenderItems((prevState)=> [...prevState, ..._itms]);
-            
-            }
+        setIsReady((x)=> initReady);
 
     }, [
         ChartItems,
@@ -141,6 +136,27 @@ const RPieChart = forwardRef<RPieChartRef, Props>(({
         Opacity
     ]);
 
+    useEffect(()=>{
+        
+        if(!isReady)
+            return;
+
+        setRenderItems((prevState) => []);
+
+        let _itms: RRenderPieChartItem[] = [];
+
+        if (ChartItems) {
+            for (let index = 0; index < ChartItems.length; index++) {
+                const element = ChartItems[index];
+                let itm = new RRenderPieChartItem(element.Value, element.Title, element.BackgroundColor, element.ForeColor);
+                _itms.push(itm);
+            }
+
+            setRenderItems((prevState)=> [...prevState, ..._itms]);
+            
+        }
+
+    }, [isReady, ChartItems]);
     
     useEffect(()=>{
 

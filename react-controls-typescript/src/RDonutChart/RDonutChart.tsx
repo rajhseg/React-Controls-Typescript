@@ -77,7 +77,9 @@ const RDonutChart = forwardRef<RDonutChartRef, Props>(({
     let _lineWidth: number = 0;
     
     let context: CanvasRenderingContext2D | null = null;
-  
+    
+    const [isready, setIsReady] = useState<boolean>(false);
+
     const Id: string = useId();
 
     const HostElementId : string = useId();
@@ -100,6 +102,32 @@ const RDonutChart = forwardRef<RDonutChartRef, Props>(({
 
 
     useEffect(()=>{
+        let initReady = [
+            FontSize,
+            TextForeColor, RotateTextToInlineAngle, ShowTextOnTopOfChartItem, 
+            MoveTextUpwardsFromCenterInPx, ChartWidth, DataListHeight, ShadowColor, ShadowBlur, Opacity
+        ].every(x=> x!== undefined && x !== null);
+        
+        setIsReady((x)=> initReady);
+
+    }, [
+        ChartItems,
+        FontSize,
+        TextForeColor,
+        RotateTextToInlineAngle,
+        ShowTextOnTopOfChartItem,
+        MoveTextUpwardsFromCenterInPx,
+        ChartWidth,
+        DataListHeight,
+        ShadowColor,
+        ShadowBlur,
+        Opacity    
+    ]);
+
+    useEffect(()=>{
+        
+        if(!isready)
+            return;
         
         setRenderItems((prevState) => []);
         let _itms: RRenderDonutChartItem[] = [];
@@ -115,19 +143,8 @@ const RDonutChart = forwardRef<RDonutChartRef, Props>(({
             
          }
 
-    }, [
-        ChartItems,
-        FontSize,
-        TextForeColor,
-        RotateTextToInlineAngle,
-        ShowTextOnTopOfChartItem,
-        MoveTextUpwardsFromCenterInPx,
-        ChartWidth,
-        DataListHeight,
-        ShadowColor,
-        ShadowBlur,
-        Opacity    
-    ]);
+    }, [isready, ChartItems]);
+
 
     useEffect(()=>{
 
